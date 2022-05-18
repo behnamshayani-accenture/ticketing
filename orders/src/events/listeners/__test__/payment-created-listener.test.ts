@@ -39,7 +39,7 @@ const setup = async () => {
 it('Sets order status to complete after payment event', async () => {
   const { order, listener, paymentEventData, msg } = await setup();
 
-  listener.onMessage(paymentEventData, msg);
+  await listener.onMessage(paymentEventData, msg);
   const updatedOrder = await Order.findById(order.id);
 
   expect(updatedOrder!.status).toEqual(OrderStatus.Complete);
