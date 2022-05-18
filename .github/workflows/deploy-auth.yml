@@ -35,4 +35,4 @@ jobs:
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
       # Runs a set of commands using the runners shell
       - name: Push to Dockerhub
-        run: docker push
+        run: docker push behnamshayani/ticketing-auth
