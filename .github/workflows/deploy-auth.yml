@@ -25,7 +25,7 @@ jobs:
 
       # Build image and push to dockerhub
       - name: Build image and push to dockerhub
-        run: cd auth && build -t behnamshayani/ticketing-auth .
+        run: cd auth && docker build -t behnamshayani/ticketing-auth .
 
       # Runs a set of commands using the runners shell
       - name: Login to Dockerhub
