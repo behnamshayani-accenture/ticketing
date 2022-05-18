@@ -9,7 +9,7 @@ it("Returns curerent user's email after calling current uer api", async () => {
     .get('/api/users/currentuser')
     .set('Cookie', cookie);
 
-  expect(currentUserResponse.body.currentUser.email).toEqual('test1@test.com');
+  expect(currentUserResponse.body.currentUser.email).toEqual('test@test.com');
 });
 
 it('Returns null with un-authenticated requests.', async () => {
