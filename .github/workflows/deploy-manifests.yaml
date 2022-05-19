@@ -31,4 +31,4 @@ jobs:
       - name: Change kubernetes context
         run: doctl kubernetes cluster kubeconfig save f67fd3fe-766a-47f0-8522-2a7f3819044a
       - name: Restart deployment
-        run: kubectl apply -f infra/k8s
+        run: kubectl apply -f infra/k8s && kubectl apply -f infra/k8s-prod
