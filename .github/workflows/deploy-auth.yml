@@ -1,0 +1,48 @@
+# This is a basic workflow to help you get started with Actions
+
+name: deploy-auth
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches:
+      - master
+    paths:
+      - 'auth/**'
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      # Build image and push to dockerhub
+      - name: Build image and push to dockerhub
+        run: cd auth && docker build -t behnamshayani/ticketing-auth .
+
+      # Runs a set of commands using the runners shell
+      - name: Login to Dockerhub
+        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+        env:
+          DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
+          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+      # Runs a set of commands using the runners shell
+      - name: Push to Dockerhub
+        run: docker push behnamshayani/ticketing-auth
+       
+      # Push Docker image to Kubernetes cluster and restart deployment
+      - name: Install doctl 
+        uses: digitalocean/action-doctl@v2
+        with:
+         token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      - name: Change kubernetes context
+        run: doctl kubernetes cluster kubeconfig save f67fd3fe-766a-47f0-8522-2a7f3819044a
+      - name: Restart deployment
+        run: kubectl rollout restart deployment auth-depl
