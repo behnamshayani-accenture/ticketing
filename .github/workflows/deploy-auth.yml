@@ -43,6 +43,6 @@ jobs:
         with:
          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
       - name: Change kubernetes context
-        run: doctl kubernetes cluster kubeconfig save f67fd3fe-766a-47f0-8522-2a7f3819044a
+        run: doctl kubernetes cluster kubeconfig save 3e16d764-3c8d-4c11-bd73-99efa95cf43d
       - name: Restart deployment
         run: kubectl rollout restart deployment auth-depl
